@@ -1,7 +1,8 @@
-# [스프링의 정석 : 남궁성과 끝까지 간다]
+# [SpringBasic]
 
 - IntelliJ, MySQL, MyBatis을 사용
 - Spring MVC으로 회원가입, 로그인, 게시판, 댓글을 만드는 연습을 하였습니다.
+### 출처 : [스프링의 정석 : 남궁성과 끝까지 간다]
 
 ## [사용된 SQL ERD Diagram]
 
@@ -32,4 +33,4 @@
 ## [댓글 화면]
 ![image](https://user-images.githubusercontent.com/96456838/182912447-2c828fc0-5406-4709-ab1b-0819d9c0ad07.png)
 
-- 꾸미지 않고 crud기능만을 넣어놓은 상태입니다
+- 꾸미지 않고 crud기능만을 넣어놓은 상태입니다.
