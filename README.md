@@ -31,4 +31,5 @@
 
 ## [댓글 화면]
 ![image](https://user-images.githubusercontent.com/96456838/182912447-2c828fc0-5406-4709-ab1b-0819d9c0ad07.png)
--- 꾸미지 않고 crud기능만을 넣어놓은 상태입니다. 
+
+- 꾸미지 않고 crud기능만을 넣어놓은 상태입니다
