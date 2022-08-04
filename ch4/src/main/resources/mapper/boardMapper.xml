@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fastcampus.ch4.dao.BoardMapper">
+    <!-- MyBatis의 동적 쿼리  - <sql>과 <include> : 공통 부분을 정의하고 포함시켜 재사용 -->
+    <sql id="selectFromBoard"> <!-- 공통 부분을 <sql>로 정의 -->
+        SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
+        FROM board
+    </sql>
+    <!-- resultType : sql 실행결과를 담을 resultType 지정 -->
+    <select id="select" parameterType="int" resultType="BoardDto"> <!-- 게시물 번호 주면 게시물 1개 읽기 -->
+        <include refid="selectFromBoard"/> <!-- <include>로 포함시켜 재사용 -->
+        WHERE bno = #{bno} <!-- 게시물을 읽을 때 해당 게시물을 읽어와야 하므로 where절, 이에 따른 parameterType값을 적어줘야한다 -->
+    </select>
+
+    <select id="count" resultType="int"> <!-- 전체 게시물 개수 가져오기 -->
+        SELECT count(*) FROM board
+    </select>
+
+    <insert id="insert" parameterType="BoardDto"> <!-- 매개변수 BoardDto를 주면  #{}채워서 주는 것 -->
+        INSERT INTO board
+        (title, content, writer)
+        VALUES
+        (#{title}, #{content}, #{writer})
+    </insert>
+
+    <update id="update" parameterType="BoardDto"><!-- 매개변수 BoardDto를 주면  #{}채워서 업데이트 -->
+        UPDATE board
+        SET   title = #{title}
+        , content = #{content}
+        , up_date = now()
+        WHERE bno = #{bno} and writer = #{writer}
+    </update>
+
+    <delete id="delete" parameterType="map"> <!-- 삭제시 게시물 번호와 작성자가 일치시 삭제 -->
+        DELETE FROM board WHERE bno = #{bno} and writer = #{writer}
+    </delete>
+
+    <delete id="deleteForAdmin"> <!-- 관리자가 삭제를 원하면 writer없이 작성 -->
+        DELETE FROM board WHERE bno = #{bno}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM board
+    </delete>
+
+    <select id="selectAll" resultType="BoardDto">
+        SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
+        FROM board
+        ORDER BY reg_date DESC, bno DESC
+    </select>
+
+    <select id="selectPage" parameterType="map" resultType="BoardDto">
+        <include refid="selectFromBoard"/>
+        ORDER BY reg_date DESC, bno DESC
+        LIMIT #{offset}, #{pageSize}
+        <!-- LIMIT[offset], row_count
+            offset //맨 처음부터 얼만큼 떨어져 있는가
+            row_count //읽어올 row의 수
+            page 1 -> offset 0
+            page 2 -> offset 10
+            page 3 -> offset 20
+            page 4 -> offset 30
+            offset = (page - 1) * 10  -->
+    </select>
+
+    <update id="increaseViewCnt" parameterType="int"> <!-- 조회 시 조회 수 올리기 -->
+        UPDATE board
+        SET   view_cnt = view_cnt + 1
+        WHERE bno = #{bno}
+    </update>
+
+    <update id="updateCommentCnt" parameterType="map">
+        UPDATE board
+        SET   comment_cnt = comment_cnt + #{cnt}
+        WHERE bno = #{bno}
+    </update>
+
+    <sql id="searchCondition">
+        <choose>
+            <when test='option=="T"'>
+                AND title LIKE concat('%', #{keyword}, '%')  <!-- %title%  -->
+            </when>
+            <when test='option=="W"'>
+                AND writer LIKE concat('%', #{keyword}, '%')
+            </when>
+            <otherwise>
+                AND (title LIKE concat('%', #{keyword}, '%')
+                OR content LIKE concat('%', #{keyword}, '%'))
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="searchSelectPage" parameterType="SearchCondition" resultType="BoardDto">
+        <include refid="selectFromBoard"/>
+        WHERE true
+        <include refid="searchCondition"/>
+        ORDER BY reg_date DESC, bno DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="searchResultCnt" parameterType="SearchCondition" resultType="Integer">
+        SELECT count(*)
+        FROM board
+        WHERE true
+        <include refid="searchCondition"/>
+    </select>
+
+    <update id="updateCommentCnt" parameterType="map">
+        UPDATE board
+        SET   comment_cnt = comment_cnt + #{cnt}
+        WHERE bno = #{bno}
+    </update>
+
+</mapper>

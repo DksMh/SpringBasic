@@ -1,0 +1,2 @@
+car=com.fastcampus.ch3.SpringDI_imitate3.SportsCar
+engine=com.fastcampus.ch3.SpringDI_imitate3.Engine

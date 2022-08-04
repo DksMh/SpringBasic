@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- component-scan을 사용하면 @Component 애너션테이이 붙어 있는 객체들은 Bean으로 자동 등록 -->
+    <context:component-scan base-package="com.fastcampus.ch3">
+        <context:exclude-filter type="regex" expression="com.fastcampus.ch3.SpringDI_imitate*.*"/> <!-- 모든 하위 클래스 제외 -->
+    </context:component-scan>
+    <context:annotation-config/>
+</beans>
