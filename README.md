@@ -31,7 +31,7 @@
 #### [게시판 화면 - 삭제]
 ![board_del](https://user-images.githubusercontent.com/96456838/182910982-dfb32b1f-9aae-4fd5-9229-12bbca12cb27.png)
 
-- CRUD 기능을 니다.
+- CRUD 기능을 구현했습니다.
 
 ## [댓글 화면]
 ![image](https://user-images.githubusercontent.com/96456838/182912447-2c828fc0-5406-4709-ab1b-0819d9c0ad07.png)
